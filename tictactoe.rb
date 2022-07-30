@@ -27,7 +27,7 @@ class Board
   attr_reader :board
   attr_accessor :is_won
 
-  @separator = '-----------'
+  @@separator = '-----------'
   @@winning_combinations = [
     [0, 4, 8], [2, 4, 6], [0, 1, 2],
     [3, 4, 5], [6, 7, 8], [0, 3, 6],
@@ -43,9 +43,9 @@ class Board
     puts
     puts
     puts ' 1 | 2 | 3 '
-    puts @separator
+    puts @@separator
     puts ' 4 | 5 | 6 '
-    puts @separator
+    puts @@separator
     puts ' 7 | 8 | 9 '
     puts
   end
@@ -101,7 +101,7 @@ def initialize_game
   player2 = Player.new(player2_name, 'o')
   puts "Alright, #{player2_name}, we're ready to roll."
   board = Board.new
-  player1, player2, board
+  return player1, player2, board
 end
 
 def play_tic_tac_toe 
