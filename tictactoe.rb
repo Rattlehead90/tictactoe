@@ -23,6 +23,14 @@ class Board
     puts @@separator
     puts " #{board[6]} | #{board[7]} | #{board[8]} "
   end
+
+  def cross(index)
+    board[index] = 'x'
+  end
+
+  def nought(index)
+    board[index] = 'o'
+  end
 end
 
 board = Board.new
