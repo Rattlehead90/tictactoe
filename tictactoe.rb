@@ -11,10 +11,13 @@ class Player
   end
 
   def make_a_choice(board)
-    self.choice = gets.chomp.to_i - 1
+    raw_input = gets.chomp
+    self.choice = raw_input.to_i - 1
     until self.choice.between?(0, 8) && board.board[self.choice] == ' '
-      puts "Sorry, #{self.choice + 1} is not on the board... *literally*. Enter the number between 1 and 9 that is not occupied"
-      self.choice = gets.chomp.to_i - 1
+      puts "Sorry, #{raw_input} is not on the board... *literally*."
+      puts "Enter the number of the cell between 1 and 9 that is not occupied:"
+      raw_input = gets.chomp
+      self.choice = raw_input.to_i - 1
     end
   end
 end
