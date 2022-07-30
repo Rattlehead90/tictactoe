@@ -1,5 +1,4 @@
-require 'pry-byebug'
-
+# Player class that creates a player able to choose a cell and bear an individual mark
 class Player
   attr_reader :name, :mark
   attr_accessor :choice
@@ -13,20 +12,27 @@ class Player
   def make_a_choice(board)
     raw_input = gets.chomp
     self.choice = raw_input.to_i - 1
-    until self.choice.between?(0, 8) && board.board[self.choice] == ' '
+    until choice.between?(0, 8) && board.board[choice] == ' '
       puts "Sorry, #{raw_input} is not on the board... *literally*."
-      puts "Enter the number of the cell between 1 and 9 that is not occupied:"
+      puts 'Enter the number of the cell between 1 and 9 that is not occupied:'
       raw_input = gets.chomp
       self.choice = raw_input.to_i - 1
     end
   end
 end
 
-class Board 
+# Board class that creates a board that can show the possible turns, stores 
+# other choices, and decides for itself if the game is won
+class Board
   attr_reader :board
   attr_accessor :is_won
 
-  @@separator = '-----------'
+  @separator = '-----------'
+  @@winning_combinations = [
+    [0, 4, 8], [2, 4, 6], [0, 1, 2],
+    [3, 4, 5], [6, 7, 8], [0, 3, 6],
+    [1, 4, 7], [2, 5, 8]
+  ]
 
   def initialize
     @board = Array.new(9, ' ')
@@ -37,15 +43,15 @@ class Board
     puts
     puts
     puts ' 1 | 2 | 3 '
-    puts @@separator
+    puts @separator
     puts ' 4 | 5 | 6 '
-    puts @@separator
+    puts @separator
     puts ' 7 | 8 | 9 '
     puts
   end
 
   def show
-    puts 
+    puts
     puts
     puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts @@separator
@@ -60,26 +66,20 @@ class Board
   end
 
   def game_is_won?
-    winning_combinations = [
-      [0, 4, 8], [2, 4, 6], [0, 1, 2],
-      [3, 4, 5], [6, 7, 8], [0, 3, 6],
-      [1, 4, 7], [2, 5, 8]
-    ]
-    winning_combinations.each do |combination|
-      if (  board[combination[0]] != ' ' &&
-            board[combination[1]] != ' ' &&
-            board[combination[2]] != ' ' &&
-            board[combination[0]] == board[combination[1]] && 
-            board[combination[1]] == board[combination[2]]  )
-        self.is_won = true
-      end
+    @@winning_combinations.each do |combination|
+      next if board[combination[0]] != ' ' &&
+              board[combination[1]] != ' ' &&
+              board[combination[2]] != ' ' &&
+              if  board[combination[0]] == board[combination[1]] && 
+                  board[combination[1]] == board[combination[2]]
+                self.is_won = true
+              end
     end
-    return self.is_won
+    is_won
   end
 end
 
-def initialize_game
-  puts 
+def greetings
   puts
   puts 'Welcome to the game of Tic Tac Toe (Noughts and Crosses)'
   puts '|___|___|___|___|___|___|___|___|___|___|___|___'
@@ -90,6 +90,9 @@ def initialize_game
   puts 'The second player has noughts to distribute across the board.'
   puts 'The board\'s size is fixed 3x3'
   Board.show_options
+end
+
+def initialize_game
   puts 'Player 1 (Crosses), introduce yourself: '
   player1_name = gets.chomp
   player1 = Player.new(player1_name, 'x')
@@ -98,10 +101,11 @@ def initialize_game
   player2 = Player.new(player2_name, 'o')
   puts "Alright, #{player2_name}, we're ready to roll."
   board = Board.new
-  return player1, player2, board
+  player1, player2, board
 end
 
 def play_tic_tac_toe 
+  greetings
   player1, player2, board = initialize_game
   player_list = [player1, player2]
   turn = 0
