@@ -37,7 +37,7 @@ class Board
   end
 
   def show
-    puts
+    puts 
     puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts @@separator
     puts " #{board[3]} | #{board[4]} | #{board[5]} "
@@ -82,7 +82,7 @@ def play_tic_tac_toe
   player1.make_a_choice
   board.cross(player1.choice)
   board.show
-  puts "#{player2.name}'s turn. Choose the cell to put a cross in:"
+  puts "#{player2.name}'s turn. Choose the cell to put a nought in:"
   player2.make_a_choice
   board.nought(player2.choice)
   board.now
