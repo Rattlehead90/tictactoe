@@ -4,10 +4,9 @@ class Player
   attr_reader :name, :mark
   attr_accessor :choice
 
-  def initialize(name, mark, score = 0)
+  def initialize(name, mark)
     @name = name
     @mark = mark
-    @score = score
     @choice = nil
   end
 
@@ -112,7 +111,11 @@ def play_tic_tac_toe
     board.show
     turn += 1
   end
-  'game over'
+  winner = player_list[(turn - 1) % 2]
+  puts "#{winner.name} has won!"
+  puts "___________________________________"
+  puts "GAME OVER!"
+  puts "___________________________________"
 end
 
 play_tic_tac_toe
