@@ -1,11 +1,12 @@
 require 'pry-byebug'
 
 class Player
-  attr_reader :name
+  attr_reader :name, :mark
   attr_accessor :choice
 
-  def initialize(name, score = 0)
+  def initialize(name, mark, score = 0)
     @name = name
+    @mark = mark
     @score = score
     @choice = nil
   end
@@ -52,12 +53,8 @@ class Board
     puts
   end
 
-  def cross(index)
-    board[index] = 'x'
-  end
-
-  def nought(index)
-    board[index] = 'o'
+  def mark(index, mark)
+    board[index] = mark
   end
 
   def game_is_won?
@@ -93,10 +90,10 @@ def initialize_game
   Board.show_options
   puts 'Player 1 (Crosses), introduce yourself: '
   player1_name = gets.chomp
-  player1 = Player.new(player1_name)
+  player1 = Player.new(player1_name, 'x')
   puts "Okay, #{player1_name}, who's to challenge you?"
   player2_name = gets.chomp
-  player2 = Player.new(player2_name)
+  player2 = Player.new(player2_name, 'o')
   puts "Alright, #{player2_name}, we're ready to roll."
   board = Board.new
   return player1, player2, board
@@ -104,17 +101,16 @@ end
 
 def play_tic_tac_toe 
   player1, player2, board = initialize_game
+  player_list = [player1, player2]
+  turn = 0
   until board.game_is_won?
-    print "#{player1.name}'s turn. Choose the cell to put a cross in:"
+    player = player_list[turn % 2]
+    print "#{player.name}'s turn. Choose the cell to put a cross  or a nought in:"
     Board.show_options
-    player1.make_a_choice(board)
-    board.cross(player1.choice)
+    player.make_a_choice(board)
+    board.mark(player.choice, player.mark)
     board.show
-    print "#{player2.name}'s turn. Choose the cell to put a nought in:"
-    Board.show_options
-    player2.make_a_choice(board)
-    board.nought(player2.choice)
-    board.show
+    turn += 1
   end
   'game over'
 end
