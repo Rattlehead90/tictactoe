@@ -59,13 +59,11 @@ def greetings
   player2_name = gets.chomp
   player2 = Player.new(player2_name)
   puts "Alright, #{player2_name}, we're ready to roll."
-  return board = Board.new
 end
 
 def play_tic_tac_toe 
-  board = greetings
-  board.show
-  board.show_options
+  greetings
+  board = Board.new
 end
 
 play_tic_tac_toe
