@@ -117,9 +117,14 @@ def play_tic_tac_toe
     board.mark(player.choice, player.mark)
     board.show
     turn += 1
+    break if turn > 8
   end
-  winner = player_list[(turn - 1) % 2]
-  puts "#{winner.name} has won!"
+  unless turn > 8 
+    winner = player_list[(turn - 1) % 2]
+    puts "#{winner.name} has won!"
+  else
+    puts 'It\'s a tie!'
+  end
   puts "___________________________________"
   puts "GAME OVER!"
   puts "___________________________________"
