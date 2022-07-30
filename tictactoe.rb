@@ -79,55 +79,57 @@ class Board
   end
 end
 
-def greetings
-  puts
-  puts 'Welcome to the game of Tic Tac Toe (Noughts and Crosses)'
-  puts '|___|___|___|___|___|___|___|___|___|___|___|___'
-  puts '_---_---_---_---_---_---_---_---_---_---_---__--'
-  puts '________________________________________________'
-  puts '______________________RULES_____________________'
-  puts 'The game is designed for two players. The first player plays crosses.'
-  puts 'The second player has noughts to distribute across the board.'
-  puts 'The board\'s size is fixed 3x3'
-  Board.show_options
-end
+class Game
 
-def initialize_game
-  puts 'Player 1 (Crosses), introduce yourself: '
-  player1_name = gets.chomp
-  player1 = Player.new(player1_name, 'x')
-  puts "Okay, #{player1_name}, who's to challenge you?"
-  player2_name = gets.chomp
-  player2 = Player.new(player2_name, 'o')
-  puts "Alright, #{player2_name}, we're ready to roll."
-  board = Board.new
-  return player1, player2, board
-end
+  def self.initialize
+    puts 'Player 1 (Crosses), introduce yourself: '
+    player1_name = gets.chomp
+    player1 = Player.new(player1_name, 'x')
+    puts "Okay, #{player1_name}, who's to challenge you?"
+    player2_name = gets.chomp
+    player2 = Player.new(player2_name, 'o')
+    puts "Alright, #{player2_name}, we're ready to roll."
+    $player_list = [player1, player2]
+  end
 
-def play_tic_tac_toe 
-  greetings
-  player1, player2, board = initialize_game
-  player_list = [player1, player2]
-  turn = 0
-  until board.game_is_won?
-    player = player_list[turn % 2]
-    print "#{player.name}'s turn. Choose the cell to put a cross  or a nought in:"
+  def self.greetings
+    puts
+    puts 'Welcome to the game of Tic Tac Toe (Noughts and Crosses)'
+    puts '|___|___|___|___|___|___|___|___|___|___|___|___'
+    puts '_---_---_---_---_---_---_---_---_---_---_---__--'
+    puts '________________________________________________'
+    puts '______________________RULES_____________________'
+    puts 'The game is designed for two players. The first player plays crosses.'
+    puts 'The second player has noughts to distribute across the board.'
+    puts 'The board\'s size is fixed 3x3'
     Board.show_options
-    player.make_a_choice(board)
-    board.mark(player.choice, player.mark)
-    board.show
-    turn += 1
-    break if turn > 8
   end
-  unless turn > 8 
-    winner = player_list[(turn - 1) % 2]
-    puts "#{winner.name} has won!"
-  else
-    puts 'It\'s a tie!'
+
+  def self.play(player_list)
+    board = Board.new
+    turn = 0
+    until board.game_is_won?
+      player = player_list[turn % 2]
+      print "#{player.name}'s turn. Choose the cell to put a cross  or a nought in:"
+      Board.show_options
+      player.make_a_choice(board)
+      board.mark(player.choice, player.mark)
+      board.show
+      turn += 1
+      break if turn > 8
+    end
+    unless turn > 8 
+      winner = player_list[(turn - 1) % 2]
+      puts "#{winner.name} has won!"
+    else
+      puts 'It\'s a tie!'
+    end
+    puts "___________________________________"
+    puts "GAME OVER!"
+    puts "___________________________________"
   end
-  puts "___________________________________"
-  puts "GAME OVER!"
-  puts "___________________________________"
 end
 
-play_tic_tac_toe
+Game.greetings
+Game.initialize
+Game.play($player_list)
