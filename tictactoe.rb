@@ -16,12 +16,22 @@ class Board
     @board = Array.new(9, ' ')
   end
 
+  def show_options
+    puts ' 1 | 2 | 3 '
+    puts @@separator
+    puts ' 4 | 5 | 6 '
+    puts @@separator
+    puts ' 7 | 8 | 9 '
+    puts
+  end
+
   def show
     puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts @@separator
     puts " #{board[3]} | #{board[4]} | #{board[5]} "
     puts @@separator
     puts " #{board[6]} | #{board[7]} | #{board[8]} "
+    puts
   end
 
   def cross(index)
@@ -49,11 +59,13 @@ def greetings
   player2_name = gets.chomp
   player2 = Player.new(player2_name)
   puts "Alright, #{player2_name}, we're ready to roll."
-  board = Board.new
+  return board = Board.new
 end
 
 def play_tic_tac_toe 
-  greetings
+  board = greetings
+  board.show
+  board.show_options
 end
 
 play_tic_tac_toe
