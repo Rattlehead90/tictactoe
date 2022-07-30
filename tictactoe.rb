@@ -33,8 +33,27 @@ class Board
   end
 end
 
-board = Board.new
-board.show
-board.cross(1)
-puts
-board.show
+def greetings
+  puts 'Welcome to the game of Tic Tac Toe (Noughts and Crosses)'
+  puts '|___|___|___|___|___|___|___|___|___|___|___|___'
+  puts '_---_---_---_---_---_---_---_---_---_---_---__--'
+  puts '________________________________________________'
+  puts '______________________RULES_____________________'
+  puts 'The game is designed for two players. The first player plays crosses.'
+  puts 'The second player has noughts to distribute across the board.'
+  puts 'The board\'s size is fixed 3x3'
+  puts 'Player 1 (Crosses), introduce yourself: '
+  player1_name = gets.chomp
+  player1 = Player.new(player1_name)
+  puts "Okay, #{player1_name}, who's to challenge you?"
+  player2_name = gets.chomp
+  player2 = Player.new(player2_name)
+  puts "Alright, #{player2_name}, we're ready to roll."
+  board = Board.new
+end
+
+def play_tic_tac_toe 
+  greetings
+end
+
+play_tic_tac_toe
