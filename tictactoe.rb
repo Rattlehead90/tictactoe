@@ -1,9 +1,19 @@
 class Player
   attr_reader :name
+  attr_accessor :choice
 
   def initialize(name, score = 0)
     @name = name
     @score = score
+    @choice = nil
+  end
+
+  def make_a_choice
+    self.choice = gets.chomp.to_i - 1
+    until self.choice.between?(0, 8)
+      puts "Sorry, #{self.choice} is not on the board... *literally*. Enter the number between 1 and 9"
+      self.choice = gets.chomp.to_i - 1
+    end
   end
 end
 
@@ -17,6 +27,7 @@ class Board
   end
 
   def show_options
+    puts
     puts ' 1 | 2 | 3 '
     puts @@separator
     puts ' 4 | 5 | 6 '
@@ -26,6 +37,7 @@ class Board
   end
 
   def show
+    puts
     puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts @@separator
     puts " #{board[3]} | #{board[4]} | #{board[5]} "
@@ -43,7 +55,7 @@ class Board
   end
 end
 
-def greetings
+def initialize_game
   puts 'Welcome to the game of Tic Tac Toe (Noughts and Crosses)'
   puts '|___|___|___|___|___|___|___|___|___|___|___|___'
   puts '_---_---_---_---_---_---_---_---_---_---_---__--'
@@ -59,11 +71,21 @@ def greetings
   player2_name = gets.chomp
   player2 = Player.new(player2_name)
   puts "Alright, #{player2_name}, we're ready to roll."
+  return player1, player2
 end
 
 def play_tic_tac_toe 
-  greetings
+  player1, player2 = initialize_game
   board = Board.new
+  puts "#{player1.name}'s turn. Choose the cell to put a cross in:"
+  board.show_options
+  player1.make_a_choice
+  board.cross(player1.choice)
+  board.show
+  puts "#{player2.name}'s turn. Choose the cell to put a cross in:"
+  player2.make_a_choice
+  board.nought(player2.choice)
+  board.now
 end
 
 play_tic_tac_toe
