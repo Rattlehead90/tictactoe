@@ -1,5 +1,4 @@
 class Player
-
   attr_reader :name
 
   def initialize(name, score = 0)
@@ -9,12 +8,25 @@ class Player
 end
 
 class Board 
+  attr_reader :board
+
+  @@separator = '-----------'
+
+  def initialize
+    @board = Array.new(9, ' ')
+  end
+
   def show
-    puts row = ["   " "|" "   " "|" "   "]
-    puts separator = "-----------"
-    puts row
-    puts separator
-    puts row
+    puts " #{board[0]} | #{board[1]} | #{board[2]} "
+    puts @@separator
+    puts " #{board[3]} | #{board[4]} | #{board[5]} "
+    puts @@separator
+    puts " #{board[6]} | #{board[7]} | #{board[8]} "
   end
 end
 
+board = Board.new
+board.show
+board.cross(1)
+puts
+board.show
